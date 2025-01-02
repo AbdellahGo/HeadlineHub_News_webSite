@@ -1,1 +1,30 @@
-export {default as home} from './Home'
+export {default as Home} from './Home'
+export {default as ContactUs} from './ContactUs'
+export {default as AboutUs} from './AboutUs'
+export {default as Blog} from './Blog'
+export {default as Search} from './Search'
+export {default as StoryDetails} from './StoryDetails'
+export {default as MyNews} from './MyNews'
+export {default as SignIn} from './forms/SignIn'
+export {default as SignUp} from './forms/SignUp'
+
+
+
+
+export {default as World} from './World'
+export {default as Business} from './Business'
+export {default as Politics} from './Politics'
+export {default as Technology} from './Technology'
+export {default as Arts} from './Arts'
+export {default as Opinion} from './Opinion'
+export {default as Education} from './Education'
+export {default as Health} from './Health'
+export {default as Realestate} from './Realestate'
+export {default as Science} from './Science'
+export {default as Sports} from './Sports'
+export {default as Travel} from './Travel'
+export {default as Food} from './Food'
+export {default as Africa} from './Africa'
+export {default as Asia} from './Asia'
+export {default as Europe} from './Europe'
+

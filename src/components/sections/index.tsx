@@ -1,0 +1,7 @@
+export {default as HeroSection} from './HeroSection'
+export {default as WorldCategorySection} from './WorldCategorySection'
+export {default as BusinessCategory} from './BusinessCategory'
+export {default as TechnologyCategory} from './TechnologyCategory'
+export {default as ArtsCategory} from './ArtsCategory'
+export {default as MoreNewsSection} from './MoreNewsSection'
+export {default as PoliticsCategory} from './PoliticsCategory'
