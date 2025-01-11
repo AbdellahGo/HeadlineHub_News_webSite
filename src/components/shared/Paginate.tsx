@@ -1,10 +1,10 @@
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io"
 import { toast } from "react-toastify"
-import { ITopNewsType } from "../../types"
+import { INewsType, ITopNewsType } from "../../types"
 import { Dispatch, SetStateAction } from "react"
 
 type Props = {
-    moreNews: ITopNewsType
+    moreNews: ITopNewsType | INewsType
     page: number
     setPage: Dispatch<SetStateAction<number>>
     setPagesList: Dispatch<SetStateAction<number[]>>
@@ -23,7 +23,6 @@ const Paginate = ({ moreNews, page, setPage, setPagesList, pagesList }: Props) =
         setPage(pageNumbar)
         setPagesList(prev => [...prev].slice(0, pageNumbar))
     }
-
     const handlePrev = () => {
         if (page === 1) {
             setPage(1)
@@ -34,6 +33,7 @@ const Paginate = ({ moreNews, page, setPage, setPagesList, pagesList }: Props) =
             setPagesList(prev => [...prev].slice(0, page - 1))
         }
     }
+
     const handleNext = () => {
         if (moreNews?.length === 0) {
             toast.warn('Sorry, No More Pages To Go.');
@@ -62,7 +62,7 @@ const Paginate = ({ moreNews, page, setPage, setPagesList, pagesList }: Props) =
                             {pagesList[0]}
                         </button>
 
-                        {pagesList.length > 3 && <span className="w-[35px] h-[35px] flex items-center justify-center">...</span>}
+                        {pagesList.length > 3 && <span className="w-[35px] h-[35px] flex items-center justify-center text-qlink-color dark:text-white">...</span>}
 
                         <button className={pageStyles}
                             onClick={() => handleClickOnPage(pagesList[pagesList.length - 2])}>

@@ -9,18 +9,19 @@ type props = {
     abstract: string
     published_date: string
     isAbstractDisplayed: boolean
+    category: string
     titleStyles?: string
     containerStyles?: string
 
 }
 
-const FancyNewsCard = ({containerStyles, titleStyles, isAbstractDisplayed, title, uri, img, abstract, published_date }: props) => {
+const FancyNewsCard = ({ category, containerStyles, titleStyles, isAbstractDisplayed, title, uri, img, abstract, published_date }: props) => {
     return (
         <div className={`${containerStyles} group relative h-full flex items-end`}>
-            <div className="w-full relative z-10 p-[100px_25px_25px]"
+            <div className="flex flex-col justify-end w-full h-auto  relative z-10 p-[25px_25px]"
                 style={{ backgroundImage: 'linear-gradient(to top, #191c20 0,#191c20f2 calc(100% - 150px),#191c2000 100%)' }}>
-                <Link to={'/politics'} className="mb-[7px] font-dmSans text-16 text-white font-medium duration-3 hover:opacity-[.7] ">
-                    Politics
+                <Link to={`category/${category}`} className="capitalize mb-[7px] font-dmSans text-16 text-white font-medium duration-3 hover:opacity-[.7] ">
+                    {category}
                 </Link>
                 <h2 className={`mb-[7px] ${titleStyles}  font-notoSans font-bold  `}>
                     <Link to={`/story-details/${encodeURIComponent(uri)}`} className={` text-white !from-white !to-white ${hoverAnimatedUnderline}`}>
@@ -34,7 +35,14 @@ const FancyNewsCard = ({containerStyles, titleStyles, isAbstractDisplayed, title
                 )}
                 <div className="flex items-center justify-between">
                     <span className="font-dmSans text-12 leading-[20px] text-absolute-light">{formatDate(published_date)}</span>
-                    <BookmarkButton />
+                    <BookmarkButton iconColor="white" storyData={{
+                                        category: category,
+                                        title: title,
+                                        description: abstract,
+                                        updated: published_date,
+                                        image: img,
+                                        uri: uri,
+                                    }}/>
                 </div>
             </div>
             <Link to={`story-details/${encodeURIComponent(uri)}`} className="z-[1] absolute bottom-0 left-0 w-full h-full">

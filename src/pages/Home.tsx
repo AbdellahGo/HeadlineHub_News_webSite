@@ -9,9 +9,10 @@ const Home = () => {
       <TechnologyCategory/>
       <ArtsCategory/>
       <PoliticsCategory/>
-      <MoreNewsSection/>
+      <MoreNewsSection startSliceIndex={0} lastSliceIndex={8} />
     </div>
   )
 }
 
 export default Home
+

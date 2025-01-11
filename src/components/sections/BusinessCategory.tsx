@@ -7,7 +7,7 @@ import { formatDate } from "../../lib/utils"
 import { NoImage } from "../../assets"
 
 const BusinessCategory = () => {
-    const { data: businessNews, isPending } = useGetBusinessNews()
+    const { data: businessNews = [], isPending } = useGetBusinessNews()
 
     if (isPending) return 'loading ...'
     const firstNews = businessNews![0]
@@ -18,9 +18,9 @@ const BusinessCategory = () => {
         <section className="w-full lg:mt-40 mt-30">
             <div className={container}>
                 <div className="border-t-1 border-flex-gray-30 pt-12">
-                    <div className="flex xl:flex-row  Mxl:flex-wrap  gap-30">
+                    <div className="flex xl:flex-row  Mxl:flex-wrap xl:gap-30 gap-20">
                         <div className="xl:w-[45%] w-full">
-                            <Link to={'/business'} className="flex items-center font-notoSans font-semibold lg:text-18 text-16 text-black dark:text-white hover:opacity-[.7] duration-3">
+                            <Link to={`/category/${firstNews?.section}`} className="flex items-center font-notoSans font-semibold lg:text-18 text-16 text-black dark:text-white hover:opacity-[.7] duration-3">
                                 Bussiness News
                                 <MdOutlineKeyboardArrowRight className="text-20" />
                             </Link>
@@ -33,13 +33,20 @@ const BusinessCategory = () => {
                                 </h2>
                                 <div className="mt-[7px] flex items-center justify-between">
                                     <div className="text-12 font-dmSans font-semibold">
-                                        <Link to={'/business'} className="inline-block text-qlink-color dark:text-white">Business</Link>
+                                        <Link to={`category/${firstNews?.section}`} className="inline-block text-qlink-color dark:text-white">Business</Link>
                                         <span className=" inline-flex items-center relative pl-16 text-meta-fcolor dark:text-absolute-light">
                                             {formatDate(firstNews?.published_date)}
                                             <span className="absolute left-[6px] rounded-[0.8px] w-[3px] h-[2px] bg-meta-fcolor dark:bg-absolute-light" />
                                         </span>
                                     </div>
-                                    <BookmarkButton />
+                                    <BookmarkButton storyData={{
+                                        category: firstNews?.section,
+                                        title: firstNews?.title,
+                                        description: firstNews?.abstract,
+                                        updated: firstNews?.published_date,
+                                        image: firstNews?.multimedia![0] ? `${firstNews?.multimedia[0]?.url}` : NoImage,
+                                        uri: firstNews?.uri,
+                                    }} />
                                 </div>
                                 <div className="mt-[15px]">
                                     <Link to={`/story-details/${encodeURIComponent(firstNews?.uri)}`}>
@@ -64,16 +71,23 @@ const BusinessCategory = () => {
                                         {secondNews?.title}
                                     </Link>
                                 </h2>
-                                <div className="mt-12 flex items-center justify-between">
+                                <div className="flex items-center justify-between">
                                     <span className="font-dmSans text-12  text-meta-fcolor dark:text-absolute-light">
                                         {formatDate(firstNews?.published_date)}
                                     </span>
-                                    <BookmarkButton />
+                                    <BookmarkButton storyData={{
+                                        category: secondNews?.section,
+                                        title: secondNews?.title,
+                                        description: secondNews?.abstract,
+                                        updated: secondNews?.published_date,
+                                        image: secondNews?.multimedia![0] ? `${secondNews?.multimedia[0]?.url}` : NoImage,
+                                        uri: secondNews?.uri,
+                                    }}/>
                                 </div>
                             </div>
                             <div className="xl:w-[55%] md:w-1/2 w-full md:flex md:flex-col grid sm:grid-cols-2 gap-20 ">
-                                {businessNews?.slice(2, 7)?.map(({ title, uri, published_date, multimedia }, i) => (
-                                    <SideStoryBox key={uri} title={title} updated={published_date} category='Business' uri={uri}
+                                {businessNews?.slice(2, 7)?.map(({ title, uri, published_date, abstract, multimedia }, i) => (
+                                    <SideStoryBox key={uri} title={title} updated={published_date} abstract={abstract} category='Business' uri={uri}
                                         parentStyles={i !== businessNews?.slice(2, 7).length - 1 ? 'lg:pb-20 Mmd:pb-20 lg:border-b-1 Mmd:border-b-1 border-flex-gray-15 ' : ''}
                                         img={multimedia ? (multimedia[1]?.url ? multimedia[1].url : multimedia[0]?.url) : NoImage} />
                                 ))}

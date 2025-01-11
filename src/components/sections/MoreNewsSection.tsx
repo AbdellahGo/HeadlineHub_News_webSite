@@ -1,29 +1,37 @@
 import { useState } from "react";
 import { NoImage } from "../../assets";
 import { container } from "../../clasess";
-import { useGetMoreNews } from "../../lib/react-query/queries"
-import { CategorySectionHeader, Paginate, StoryCategoryCard } from "../shared";
+import { useGetHomeNews } from "../../lib/react-query/queries"
+import { CategorySectionHeader, MoreNewsButton, StoryCategoryCard } from "../shared";
+import { INewsType } from "../../types";
 
 
+type props = {
+  startSliceIndex: number
+  lastSliceIndex: number
+}
 
-const MoreNewsSection = () => {
-  const [pagesList, setPagesList] = useState<number[]>([1])
+const MoreNewsSection = ({startSliceIndex, lastSliceIndex}: props) => {
   const [page, setPage] = useState<number>(1)
-  const { data: moreNews, isPending } = useGetMoreNews(page)
+  const lastNewsIndex = lastSliceIndex + (8 * (page - 1))
+  const { data: moreNews = [], isPending } = useGetHomeNews()
+  const sliceNews: INewsType = moreNews.slice(startSliceIndex, lastNewsIndex)
 
   if (isPending) return 'Loading...'
 
   return (
     <section className="w-full lg:mt-40 mt-30">
       <div className={container}>
-        <CategorySectionHeader sectionLink="/search" sectionName="More News" />
+        <CategorySectionHeader sectionInfo={{ name: "More News", link: '/' }} />
         <div className="grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-30 mt-20">
-          {moreNews?.slice(0, 8)?.map(({ headline, uri, multimedia, section_name, pub_date }) => (
-            <StoryCategoryCard key={uri} category={section_name} uri={uri} title={headline?.main} updated={pub_date}
-              img={multimedia ? `https://www.nytimes.com/${(multimedia[1]?.url ? multimedia[1].url : multimedia[0]?.url)}` : NoImage} />
+          {sliceNews?.slice(0, lastNewsIndex)?.map(({ title, abstract, uri, multimedia, section, published_date }) => (
+            <StoryCategoryCard key={uri} description={abstract} category={section} uri={uri} title={title} updated={published_date}
+              img={multimedia ? (multimedia[1]?.url ? multimedia[1].url : multimedia[0]?.url) : NoImage} />
           ))}
         </div>
-        <Paginate  moreNews={moreNews!}  page={page} setPage={setPage} setPagesList={setPagesList} pagesList={pagesList} />
+        {moreNews.length > lastNewsIndex && (
+          <MoreNewsButton setPage={setPage} newsList={moreNews} lastNewsIndex={lastNewsIndex} />
+        )}
       </div>
     </section>
   )

@@ -25,6 +25,8 @@ export type IContextType = {
     isAuthenticated: boolean;
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
     checkAuthUser: () => Promise<boolean>;
+    allSavedStoriesUris: string[],
+    handleSaveOrUndoSaveStories: (storyData: IStory) => Promise<void>,
 }
 
 
@@ -34,7 +36,7 @@ export type ITopNewsType = {
     multimedia: {
         url: string
     }[]
-    headline: {main : string}
+    headline: { main: string }
     pub_date: string
     section_name: string
     uri: string
@@ -48,5 +50,16 @@ export type INewsType = {
     abstract: string
     uri: string
     published_date: string
-    multimedia: {url: string}[]
+    multimedia: { url: string }[]
 }[]
+
+
+export type IStory = {
+    userId: string
+    category: string
+    title: string
+    description: string
+    updated: string
+    image: string
+    uri: string
+}

@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { IContextType, IUser } from "../types"
+import { IContextType, IStory, IUser } from "../types"
 import { getCurrentUser } from "../lib/appwrite/api"
+import { useGetSavedStories, useSaveStories, useUndoSaveStories } from "../lib/react-query/queries"
+import { toast } from "react-toastify"
 
 
 
@@ -22,15 +24,47 @@ const INITIAL_STATE = {
     isAuthenticated: false,
     setIsAuthenticated: () => { },
     checkAuthUser: async () => false as boolean,
+    allSavedStoriesUris: [],
+    handleSaveOrUndoSaveStories: async () => { },
 }
 
 const AppContext = createContext<IContextType>(INITIAL_STATE)
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
+    const [allSavedStoriesUris, setAllSavedStoriesUris] = useState<string[]>([])
     const [user, setUser] = useState<IUser>(INITIAL_USER)
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+    //? saved stories
+    const { data: allSavedStories } = useGetSavedStories(user.id)
+    const { mutateAsync: saveStories } = useSaveStories()
+    const { mutateAsync: undoSaveStories } = useUndoSaveStories()
+
+
+    const handleSaveOrUndoSaveStories = async (storyData: IStory) => {
+
+        if ((allSavedStories?.documents.length ?? 0) > 0) {
+            const storyIsSave = allSavedStories?.documents.find((item) => item?.uri === storyData.uri)
+            if (storyIsSave) {
+                const undoSave = await undoSaveStories(String(storyIsSave.$id))
+                if (undoSave) {
+                    toast.success(`${storyData.title} has been removed from your saved news.`);
+                } else {
+                    toast.error(`Sorry, A Problem Occurred. Try Again Later.`);
+                }
+                return
+            }
+        }
+        const saveStory = await saveStories(storyData)
+        if (saveStory) {
+            toast.success(`'${storyData.title}' has been saved to your saved news.`);
+        } else {
+            toast.error(`Sorry, A Problem Occurred. Try Again Later.`);
+        }
+
+    }
 
     const handleSwitchTheme = () => {
         setIsDarkMode(prev => !prev)
@@ -61,6 +95,10 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }
 
+    useEffect(() => {
+        const savedStorie = allSavedStories?.documents?.map(({ uri }) => uri) || [];
+        setAllSavedStoriesUris(savedStorie);
+    }, [allSavedStories])
 
 
     useEffect(() => {
@@ -97,6 +135,8 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
         isAuthenticated,
         setIsAuthenticated,
         checkAuthUser,
+        allSavedStoriesUris,
+        handleSaveOrUndoSaveStories,
     }
     return (
         <AppContext.Provider value={value}>

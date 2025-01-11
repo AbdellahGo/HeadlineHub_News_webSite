@@ -1,16 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router"
 import RootLayout from "./layout/RootLayout"
-import { Home, AboutUs, Blog, Business, ContactUs, MyNews,
-   Politics, Search, SignIn, SignUp, World, Technology, Arts,
-    Opinion, Education, Health,  StoryDetails,
-    Realestate,
-    Science,
-    Sports,
-    Travel,
-    Africa,
-    Asia,
-    Europe,
-    Food} from "./pages"
+import { Home, AboutUs, Blog, ContactUs, MyNews, Search, SignIn, SignUp, StoryDetails, CategoryContent} from "./pages"
 
 
 function App() {
@@ -28,24 +18,9 @@ function App() {
         <Route path="/my-news" element={<MyNews />} />
         <Route path="/search" element={<Search />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/category/:section" element={<CategoryContent />} />
         
-        {/*//? News Categories */}
-        <Route path="/world" element={<World />} />
-        <Route path="/business" element={<Business />} />
-        <Route path="/politics" element={<Politics />} />
-        <Route path="/technology" element={<Technology />} />
-        <Route path="/arts" element={<Arts />} />
-        <Route path="/opinion" element={<Opinion />} />
-        <Route path="/education" element={<Education />} />
-        <Route path="/health" element={<Health />} />
-        <Route path="/realestate" element={<Realestate />} />
-        <Route path="/science" element={<Science />} />
-        <Route path="/sports" element={<Sports />} />
-        <Route path="/travel" element={<Travel />} />
-        <Route path="/food" element={<Food />} />
-        <Route path="/africa" element={<Africa />} />
-        <Route path="/asia" element={<Asia />} />
-        <Route path="/europe" element={<Europe />} />
+
       </Route>
     )
   )

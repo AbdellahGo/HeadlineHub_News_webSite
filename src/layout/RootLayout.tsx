@@ -13,7 +13,7 @@ const RootLayout = () => {
       <div className="relative z-[99999]">
         <NavBar navBarHeight={navBarHeight} setNavBarHeight={setNavBarHeight} />
       </div>
-      <main style={{ paddingTop: `${navBarHeight!}px` }}>
+      <main style={{ paddingTop: `${navBarHeight! + 20}px` }}>
         <Outlet />
       </main>
       <Footer />

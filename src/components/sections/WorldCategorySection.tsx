@@ -4,12 +4,12 @@ import { StoryCategoryContent } from "../shared"
 
 
 const WorldCategorySection = () => {
-  const {data: WorldNews, isPending } = useGetWorldNews()
+  const {data: WorldNews = [], isPending } = useGetWorldNews()
 
   if (isPending) return 'loading...'
   return (
     <section>
-        <StoryCategoryContent  sectionInfo={{name: 'World', link: '/world'}} content={(WorldNews)} />
+        <StoryCategoryContent  sectionNmae='World' content={(WorldNews)} />
     </section>
   )
 }

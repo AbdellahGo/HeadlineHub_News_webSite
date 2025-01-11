@@ -12,17 +12,15 @@ const axiosInstance = axios.create({
     },
 });
 
-//? Function to fetch top news
-export async function getTopNews(): Promise<ITopNewsType | undefined> {
+//? Functions that fetch news by section 
+export async function getHomeNews(): Promise<INewsType | undefined> {
     try {
-        const response = await axiosInstance.get(`/search/v2/articlesearch.json`, {
+        const response = await axiosInstance.get(`/topstories/v2/home.json`, {
             params: {
                 'api-key': API_KEY,
-                fq: 'section_name.contains:(business politics health science sports technology world)',
-                sort: 'relevance',
             },
         });
-        return response.data?.response?.docs;
+        return response.data.results;
     } catch (error) {
         console.error(error);
     }
@@ -81,6 +79,7 @@ export async function getArtsNews(): Promise<INewsType | undefined> {
         console.error(error);
     }
 }
+
 export async function getPoliticsNews(): Promise<INewsType | undefined> {
     try {
         const response = await axiosInstance.get(`/topstories/v2/politics.json`, {
@@ -94,19 +93,32 @@ export async function getPoliticsNews(): Promise<INewsType | undefined> {
     }
 }
 
-
-
-export async function getMoreNews(page: number): Promise<ITopNewsType | undefined> {
+export async function getBlogs(page: number): Promise<ITopNewsType | undefined> {
     try {
         const response = await axiosInstance.get(`/search/v2/articlesearch.json`, {
             params: {
                 'api-key': API_KEY,
-                fq: 'section_name.contains:(world business politics technology arts opinion education health realestate science sports travel africa asia europe)',
+                fq: 'news_desk:(Blogs)',
                 sort: 'newest',
                 page,
             },
         });
         return response.data?.response?.docs;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+//? Functions that fetch news by name
+export async function getNewsByCategoryName(categoryName: string): Promise<INewsType | undefined> {
+    try {
+        const response = await axiosInstance.get(`/topstories/v2/${categoryName}.json`, {
+            params: {
+                'api-key': API_KEY,
+            },
+        });
+        return response.data.results;
     } catch (error) {
         console.error(error);
     }

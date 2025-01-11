@@ -118,9 +118,9 @@ const Footer = () => {
         <div className='mt-10 pb-20 text-center'>
           <p className="dark:text-white font-dmSans text-qlink-color text-[13px] leading-[22px] opacity-[0.7]">
             &copy; 2025{" "}
-            <a href="https://github.com/AbdellahGo/HeadlineHub_News_webSite" className="inline-block text-hyperlink-line-color font-bold">HeadlineHub</a>
+            <a target="_blank" href="https://github.com/AbdellahGo/HeadlineHub_News_webSite" className="inline-block text-hyperlink-line-color font-bold">HeadlineHub</a>
             . Developed by {" "}
-            <a href={'https://github.com/AbdellahGo'} className="inline-block text-hyperlink-line-color font-bold">AbdellahGX</a>
+            <a  target="_blank" href={'https://github.com/AbdellahGo'} className="inline-block text-hyperlink-line-color font-bold">AbdellahGX</a>
             . All rights reserved.
           </p>
         </div>

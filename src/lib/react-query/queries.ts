@@ -3,36 +3,70 @@
 
 //* Appwrite mutations
 
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { INewUser } from "../../types"
-import { createUserAccount, signInAccount } from "../appwrite/api"
-import { getArtsNews, getBusinessNews, getMoreNews, getPoliticsNews, getTechnologyNews, getTopNews, getWorldNews } from "../NytimesApi/api"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { INewUser, IStory } from "../../types"
+import { createUserAccount, getSavedStories, saveStories, signInAccount, undoSaveStories } from "../appwrite/api"
+import { getArtsNews, getBusinessNews, getHomeNews, getBlogs, getPoliticsNews, getTechnologyNews, getWorldNews, getNewsByCategoryName } from "../NytimesApi/api"
 import { QUERY_KEYS } from "./queryKeys"
 
-//? create user Account query
+//? create user Account Mutation
 export const useCreateUserAccount = () => {
     return useMutation({
         mutationFn: (user: INewUser) => createUserAccount(user)
     })
 }
 
-//? sign in account query
+//? sign in account Mutation
 export const useSignInAccount = () => {
-    return useMutation(({
+    return useMutation({
         mutationFn: (user: { email: string, password: string }) => signInAccount(user)
-    }))
+    })
 }
 
 
+//? Save Stories mutations
+export const useSaveStories = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (storyData: IStory) => saveStories(storyData),
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_SAVED_STORIES],
+            })
+        }
+    })
+}
+
+//? Undo Save Stories mutations
+export const useUndoSaveStories = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (storyId: string) => undoSaveStories(storyId),
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_SAVED_STORIES],
+            })
+        }
+    })
+}
+
+//? get Saved Stories  query
+export const useGetSavedStories = (userId: string) => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_SAVED_STORIES],
+        queryFn: () => getSavedStories(userId),
+        enabled: !!userId,
+    })
+}
 
 
 
 //* NYT queries
 
-export const useGetTopNews = () => {
+export const useGetHomeNews = () => {
     return useQuery({
         queryKey: [QUERY_KEYS.GET_TOP_NEWS],
-        queryFn: getTopNews,
+        queryFn: getHomeNews,
     })
 }
 
@@ -72,9 +106,16 @@ export const useGetPoliticsNews = () => {
 }
 
 
-export const useGetMoreNews = (page: number) => {
+export const useGetBlogs = (page: number) => {
     return useQuery({
-        queryKey: [QUERY_KEYS.GET_MORE_NEWS, page],
-        queryFn: () => getMoreNews(page),
+        queryKey: [QUERY_KEYS.GET_BLOGS, page],
+        queryFn: () => getBlogs(page),
+    })
+}
+
+export const useGetNewsByCategoryName = (categoryName: string) => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_NEWS_BY_CATEGORY_NAME, categoryName],
+        queryFn: () => getNewsByCategoryName(categoryName)
     })
 }

@@ -3,13 +3,13 @@ import { StoryCategoryContent, TopicNavigationBar } from "../shared";
 
 
 const ArtsCategory = () => {
-    const { data: artsNews, isPending } = useGetArtsNews()
+    const { data: artsNews = [], isPending } = useGetArtsNews()
 
     if (isPending) return 'Loading...'
 
     return (
         <section>
-            <StoryCategoryContent sectionInfo={{ name: 'Arts', link: '/arts' }} content={(artsNews)} />
+            <StoryCategoryContent sectionNmae='Arts' content={(artsNews)} />
             <div className="mt-20">
                 <TopicNavigationBar />
             </div>

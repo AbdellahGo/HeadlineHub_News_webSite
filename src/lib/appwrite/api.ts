@@ -1,5 +1,5 @@
 import { ID, Query } from "appwrite";
-import { INewUser } from "../../types";
+import { INewUser, IStory } from "../../types";
 import { account, appwriteConfig, avatars, database } from "./config";
 
 //? create User Account
@@ -85,8 +85,71 @@ export async function getCurrentUser() {
         )
         if (!currentUser) throw Error;
         return currentUser.documents[0]
-    } catch(error) {
+    } catch (error) {
         console.log(error);
         return null
     }
+}
+
+
+
+//? get Saved Stories
+
+export async function getSavedStories(userId: string) {
+    try {
+        const savedStories = await database.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.savedStoriesCollectionId,
+            [Query.equal("user", userId), Query.orderDesc("$createdAt")]
+        )
+        if (!savedStories) throw Error;
+
+        return savedStories
+    } catch (error) {
+        console.log(error);
+        return null
+    }
+}
+
+
+
+
+//? Save Stories
+export async function saveStories(storyData: IStory) {
+    try {
+        const savedStory = database.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.savedStoriesCollectionId,
+            ID.unique(),
+            {
+                user: storyData.userId,
+                uri: storyData.uri,
+                category: storyData.category,
+                title: storyData.title,
+                image: storyData.image,
+                description: storyData.description,
+                updated: storyData.updated, 
+            }
+        )
+        return savedStory
+    } catch (error) {
+        console.log(error);
+    }
+} 
+
+//?  Undo Save Stories
+export async function undoSaveStories(storyId: string) {
+    if (!storyId) return
+    try {
+        const statusCode = await database.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.savedStoriesCollectionId,
+            storyId
+        )
+        if (!statusCode) return Error
+        return {status: 'Ok'}
+    } catch(error) {
+        console.log(error);
+    }
+    
 }
