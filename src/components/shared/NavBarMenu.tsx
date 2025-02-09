@@ -31,7 +31,7 @@ const NavBarMenu = ({ isMenuVisible, navBarHeight, setIsMenuVisible }: props) =>
       style={{ height: `${windowHeight - navBarHeight!}px` }}>
       <div className="pt-15 min-h-max">
         <div className="h-fit">
-          <SearchBar isInsideNavBarMenu />
+          <SearchBar isInsideNavBarMenu setIsMenuVisible={setIsMenuVisible} />
           <div className="px-20">
             <ul>
               {navBarMenuLinks.map(({ title, links }, i) => (

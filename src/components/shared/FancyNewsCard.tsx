@@ -20,7 +20,7 @@ const FancyNewsCard = ({ category, containerStyles, titleStyles, isAbstractDispl
         <div className={`${containerStyles} group relative h-full flex items-end`}>
             <div className="flex flex-col justify-end w-full h-auto  relative z-10 p-[25px_25px]"
                 style={{ backgroundImage: 'linear-gradient(to top, #191c20 0,#191c20f2 calc(100% - 150px),#191c2000 100%)' }}>
-                <Link to={`category/${category}`} className="capitalize mb-[7px] font-dmSans text-16 text-white font-medium duration-3 hover:opacity-[.7] ">
+                <Link to={category.toLowerCase() === 'blogs' ? '/blog' :  `/category/${category}`} className="capitalize mb-[7px] font-dmSans text-16 text-white font-medium duration-3 hover:opacity-[.7] ">
                     {category}
                 </Link>
                 <h2 className={`mb-[7px] ${titleStyles}  font-notoSans font-bold  `}>
@@ -45,7 +45,7 @@ const FancyNewsCard = ({ category, containerStyles, titleStyles, isAbstractDispl
                                     }}/>
                 </div>
             </div>
-            <Link to={`story-details/${encodeURIComponent(uri)}`} className="z-[1] absolute bottom-0 left-0 w-full h-full">
+            <Link to={`/story-details/${encodeURIComponent(uri)}`} className="z-[1] absolute bottom-0 left-0 w-full h-full">
                 <img src={img} alt="news Image" className="h-full object-cover w-full group-hover:opacity-[.8] duration-3 " />
             </Link>
         </div>

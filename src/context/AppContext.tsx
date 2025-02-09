@@ -26,6 +26,8 @@ const INITIAL_STATE = {
     checkAuthUser: async () => false as boolean,
     allSavedStoriesUris: [],
     handleSaveOrUndoSaveStories: async () => { },
+    searchQuery: '',
+    setSearchQuery: () => { },
 }
 
 const AppContext = createContext<IContextType>(INITIAL_STATE)
@@ -36,6 +38,10 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+    //? search state
+    const [searchQuery, setSearchQuery] = useState('')
+
 
     //? saved stories
     const { data: allSavedStories } = useGetSavedStories(user.id)
@@ -137,6 +143,8 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
         checkAuthUser,
         allSavedStoriesUris,
         handleSaveOrUndoSaveStories,
+        searchQuery,
+        setSearchQuery,
     }
     return (
         <AppContext.Provider value={value}>

@@ -1,16 +1,16 @@
 import { Link } from "react-router"
 import { container, hoverAnimatedUnderline } from "../../clasess"
-import { useGetTechnologyNews } from "../../lib/react-query/queries"
 import { BookmarkButton, CategorySectionHeader, MySocialMedia, StoryCategoryCard } from "../shared"
 import { NoImage } from "../../assets"
-import { formatDate, getDates } from "../../lib/utils"
+import { formatDate } from "../../lib/utils"
+import { INewsType } from "../../types"
+type props = {
+    technologyNews:INewsType | undefined
+}
 
-const TechnologyCategory = () => {
-    const { data: technologyNews = [], isPending } = useGetTechnologyNews()
 
-    if (isPending) return 'loading...'
-    getDates()
-    
+const TechnologyCategory = ({technologyNews}: props) => {
+
 
     return (
         <section className="w-full lg:mt-40 mt-30">
@@ -66,7 +66,7 @@ const TechnologyCategory = () => {
                                         title: technologyNews![0]?.title,
                                         description: technologyNews![0]?.abstract,
                                         updated: technologyNews![0]?.published_date,
-                                        image: technologyNews![0]?.multimedia![0] ? `${technologyNews![0]?.multimedia[0]?.url}` : NoImage,
+                                        image: technologyNews![0]?.multimedia && technologyNews![0]?.multimedia![0] ? `${technologyNews![0]?.multimedia![0]?.url}` : NoImage,
                                         uri: technologyNews![0]?.uri,
                                     }} />
                                 </div>

@@ -110,7 +110,7 @@ const NavBar = ({ setNavBarHeight, navBarHeight }: props) => {
                       <img src={search} alt="search icon" className={`w-24 h-24 ${isDarkMode ? 'invert-[1] brightness-[100%]' : ''}`} />
                     </button>
                   </ToolTip>
-                  <SearchBar toggleSearchBar={toggleSearchBar} />
+                  <SearchBar setToggleSearchBar={setToggleSearchBar} toggleSearchBar={toggleSearchBar} />
                 </div>
                 <div>
                   <ToolTip title="Switch Theme">

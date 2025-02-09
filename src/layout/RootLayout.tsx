@@ -8,12 +8,13 @@ const RootLayout = () => {
   const { isDarkMode } = useAppContext()
   const [navBarHeight, setNavBarHeight] = useState<number | null>(null)
 
+
   return (
     <div>
       <div className="relative z-[99999]">
         <NavBar navBarHeight={navBarHeight} setNavBarHeight={setNavBarHeight} />
       </div>
-      <main style={{ paddingTop: `${navBarHeight! + 20}px` }}>
+      <main style={{ paddingTop: `${navBarHeight!}px` }}>
         <Outlet />
       </main>
       <Footer />

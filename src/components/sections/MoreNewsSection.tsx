@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { NoImage } from "../../assets";
 import { container } from "../../clasess";
-import { useGetHomeNews } from "../../lib/react-query/queries"
 import { CategorySectionHeader, MoreNewsButton, StoryCategoryCard } from "../shared";
 import { INewsType } from "../../types";
 
@@ -9,15 +8,14 @@ import { INewsType } from "../../types";
 type props = {
   startSliceIndex: number
   lastSliceIndex: number
+  moreNews: INewsType | undefined
 }
 
-const MoreNewsSection = ({startSliceIndex, lastSliceIndex}: props) => {
+const MoreNewsSection = ({moreNews, startSliceIndex, lastSliceIndex}: props) => {
   const [page, setPage] = useState<number>(1)
   const lastNewsIndex = lastSliceIndex + (8 * (page - 1))
-  const { data: moreNews = [], isPending } = useGetHomeNews()
-  const sliceNews: INewsType = moreNews.slice(startSliceIndex, lastNewsIndex)
+  const sliceNews: INewsType = moreNews!.slice(startSliceIndex, lastNewsIndex)
 
-  if (isPending) return 'Loading...'
 
   return (
     <section className="w-full lg:mt-40 mt-30">
@@ -29,7 +27,7 @@ const MoreNewsSection = ({startSliceIndex, lastSliceIndex}: props) => {
               img={multimedia ? (multimedia[1]?.url ? multimedia[1].url : multimedia[0]?.url) : NoImage} />
           ))}
         </div>
-        {moreNews.length > lastNewsIndex && (
+        {moreNews!.length > lastNewsIndex && (
           <MoreNewsButton setPage={setPage} newsList={moreNews} lastNewsIndex={lastNewsIndex} />
         )}
       </div>

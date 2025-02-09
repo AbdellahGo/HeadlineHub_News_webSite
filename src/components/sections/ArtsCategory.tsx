@@ -1,11 +1,12 @@
-import { useGetArtsNews } from "../../lib/react-query/queries"
+import { INewsType } from "../../types";
 import { StoryCategoryContent, TopicNavigationBar } from "../shared";
 
+type props = {
+    artsNews: INewsType | undefined
+}
 
-const ArtsCategory = () => {
-    const { data: artsNews = [], isPending } = useGetArtsNews()
+const ArtsCategory = ({artsNews}: props) => {
 
-    if (isPending) return 'Loading...'
 
     return (
         <section>

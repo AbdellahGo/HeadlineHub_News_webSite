@@ -5,8 +5,8 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { INewUser, IStory } from "../../types"
-import { createUserAccount, getSavedStories, saveStories, signInAccount, undoSaveStories } from "../appwrite/api"
-import { getArtsNews, getBusinessNews, getHomeNews, getBlogs, getPoliticsNews, getTechnologyNews, getWorldNews, getNewsByCategoryName } from "../NytimesApi/api"
+import { createUserAccount, getSavedStories, logOutAccount, saveStories, signInAccount, undoSaveStories } from "../appwrite/api"
+import { getArtsNews, getBusinessNews, getHomeNews, getBlogs, getPoliticsNews, getTechnologyNews, getWorldNews, getNewsByCategoryName, getNewsBySearchQuery, getStoryDetailsByUri } from "../NytimesApi/api"
 import { QUERY_KEYS } from "./queryKeys"
 
 //? create user Account Mutation
@@ -22,6 +22,14 @@ export const useSignInAccount = () => {
         mutationFn: (user: { email: string, password: string }) => signInAccount(user)
     })
 }
+
+//? log out account Mutation
+export const useLogOutAccount = () => {
+    return useMutation({
+        mutationFn: logOutAccount,
+    });
+};
+
 
 
 //? Save Stories mutations
@@ -106,10 +114,10 @@ export const useGetPoliticsNews = () => {
 }
 
 
-export const useGetBlogs = (page: number) => {
+export const useGetBlogs = () => {
     return useQuery({
-        queryKey: [QUERY_KEYS.GET_BLOGS, page],
-        queryFn: () => getBlogs(page),
+        queryKey: [QUERY_KEYS.GET_BLOGS],
+        queryFn: () => getBlogs(),
     })
 }
 
@@ -117,5 +125,19 @@ export const useGetNewsByCategoryName = (categoryName: string) => {
     return useQuery({
         queryKey: [QUERY_KEYS.GET_NEWS_BY_CATEGORY_NAME, categoryName],
         queryFn: () => getNewsByCategoryName(categoryName)
+    })
+}
+
+export const useGetNewsBySearchQuery = (query: string) => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_NEWS_BY_SEARCH_QUERY, query],
+        queryFn: () => getNewsBySearchQuery(query)
+    })
+}
+
+export const useGetStoryDetailsByUri = (uri: string) => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_STORY_DETAILS_BY_URI, uri],
+        queryFn: () => getStoryDetailsByUri(uri)
     })
 }

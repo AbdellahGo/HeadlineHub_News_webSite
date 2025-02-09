@@ -1,15 +1,18 @@
 import { Link } from "react-router"
 import { container, hoverAnimatedUnderline } from "../../clasess"
-import { useGetBusinessNews } from "../../lib/react-query/queries"
 import { MdOutlineKeyboardArrowRight } from "react-icons/md"
 import { BookmarkButton, SideStoryBox } from "../shared"
 import { formatDate } from "../../lib/utils"
 import { NoImage } from "../../assets"
+import { INewsType } from "../../types"
 
-const BusinessCategory = () => {
-    const { data: businessNews = [], isPending } = useGetBusinessNews()
+type props = {
+    businessNews:INewsType | undefined
+}
 
-    if (isPending) return 'loading ...'
+const BusinessCategory = ({businessNews}: props) => {
+
+
     const firstNews = businessNews![0]
     const secondNews = businessNews![1]
 

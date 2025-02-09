@@ -37,6 +37,16 @@ export async function signInAccount(user: { email: string, password: string }) {
     }
 }
 
+//? log out
+export async function logOutAccount() {
+    try {
+        const session = await account.deleteSession("current");
+        return session;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 //? save user to db
 export async function saveUserToDB(user: {
     accountId: string,
@@ -94,7 +104,6 @@ export async function getCurrentUser() {
 
 
 //? get Saved Stories
-
 export async function getSavedStories(userId: string) {
     try {
         const savedStories = await database.listDocuments(

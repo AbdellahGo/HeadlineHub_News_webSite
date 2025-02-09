@@ -1,12 +1,13 @@
 import { container } from "../../clasess"
-import { useGetPoliticsNews } from "../../lib/react-query/queries"
 import { CategorySectionHeader, FancyNewsCard } from "../shared"
 import { NoImage } from "../../assets"
+import { INewsType } from "../../types"
 
-const PoliticsCategory = () => {
-    const { data: politicsNews = [], isPending } = useGetPoliticsNews()
+type props = {
+    politicsNews: INewsType | undefined
+}
 
-    if (isPending) return 'loading...'
+const PoliticsCategory = ({politicsNews} : props) => {
     return (
         <section className="w-full lg:mt-40 mt-30">
             <div className={container}>

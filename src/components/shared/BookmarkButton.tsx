@@ -14,22 +14,24 @@ type storyType = {
 
 type props = {
     storyData: storyType
-    iconColor?: string 
+    iconColor?: string
+    showText?: boolean
+    buttonStyles?: string
 }
 
-const BookmarkButton = ({ storyData, iconColor }: props) => {
-    const { user, allSavedStoriesUris, handleSaveOrUndoSaveStories} = useAppContext()
-    
+const BookmarkButton = ({ storyData, iconColor, showText, buttonStyles }: props) => {
+    const { user, allSavedStoriesUris, handleSaveOrUndoSaveStories } = useAppContext()
 
-    
     return (
         <ToolTip title={allSavedStoriesUris.some((item) => item === storyData?.uri) ? 'Undo Save' : 'Save It'} tooltipPosition='top'>
-            <button className={`text-11 group trasnition duration-3`} onClick={() => handleSaveOrUndoSaveStories({userId: user.id ,...storyData})}>
+            <button className={`flex gap-[5px] items-center text-11 border-none outline-none trasnition duration-3 text-qlink-color dark:text-white hover:text-bookmark-color ${buttonStyles}`} 
+            onClick={() => handleSaveOrUndoSaveStories({ userId: user.id, ...storyData })}>
                 {allSavedStoriesUris.some((item) => item === storyData?.uri) ? (
-                    <FaBookmark color={iconColor} className="text-qlink-color dark:text-white group-hover:text-bookmark-color" />
+                    <FaBookmark color={iconColor} />
                 ) : (
-                    <FaRegBookmark color={iconColor} className="text-qlink-color dark:text-white group-hover:text-bookmark-color" />
+                    <FaRegBookmark color={iconColor} />
                 )}
+                {showText && (allSavedStoriesUris.some((item) => item === storyData?.uri) ? 'Undo Save' : 'Save It')}
             </button>
         </ToolTip>
     )

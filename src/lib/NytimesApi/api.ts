@@ -93,24 +93,43 @@ export async function getPoliticsNews(): Promise<INewsType | undefined> {
     }
 }
 
-export async function getBlogs(page: number): Promise<ITopNewsType | undefined> {
+export async function getBlogs(): Promise<INewsType | undefined> {
+    let result: ITopNewsType = []
+    let index = 0
     try {
-        const response = await axiosInstance.get(`/search/v2/articlesearch.json`, {
-            params: {
-                'api-key': API_KEY,
-                fq: 'news_desk:(Blogs)',
-                sort: 'newest',
-                page,
-            },
-        });
-        return response.data?.response?.docs;
+        while (true) {
+            const response = await axiosInstance.get(`/search/v2/articlesearch.json`, {
+                params: {
+                    'api-key': API_KEY,
+                    fq: 'news_desk:(Blogs)',
+                    sort: 'newest',
+                    page: index
+                },
+            });
+            if (!response.data?.response?.docs || response.data.response.docs.length === 0) {
+                break;
+            }
+
+            result = [...result, ...response.data?.response?.docs]
+
+            index++
+        }
     } catch (error) {
         console.error(error);
     }
+    return (result as ITopNewsType).map(({ byline: { original }, headline: { main }, uri, pub_date, abstract, section_name, multimedia }) => ({
+        byline: original,
+        title: main,
+        uri,
+        published_date: pub_date,
+        abstract,
+        section: section_name,
+        multimedia
+    })) || []
 }
 
 
-//? Functions that fetch news by name
+//? Function that fetch news by name
 export async function getNewsByCategoryName(categoryName: string): Promise<INewsType | undefined> {
     try {
         const response = await axiosInstance.get(`/topstories/v2/${categoryName}.json`, {
@@ -121,5 +140,67 @@ export async function getNewsByCategoryName(categoryName: string): Promise<INews
         return response.data.results;
     } catch (error) {
         console.error(error);
+    }
+}
+
+
+//? Function that fetch news by search query
+export async function getNewsBySearchQuery(query: string): Promise<INewsType | undefined> {
+    let result: ITopNewsType = []
+    let index = 0
+    try {
+        while (true) {
+            const response = await axiosInstance.get(`/search/v2/articlesearch.json?q=${query}`, {
+                params: {
+                    'api-key': API_KEY,
+                    sort: 'newest',
+                    page: index
+                }
+            })
+
+            if (!response.data?.response?.docs || response.data.response.docs.length === 0) {
+                break;
+            }
+            result = [...result, ...response.data?.response?.docs]
+            index++
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    return (result as ITopNewsType).map(({ byline: { original }, headline: { main }, uri, pub_date, abstract, section_name, multimedia }) => ({
+        byline: original,
+        title: main,
+        uri,
+        published_date: pub_date,
+        abstract,
+        section: section_name,
+        multimedia: multimedia
+    })
+    ) || [];
+}
+
+
+export async function getStoryDetailsByUri(uri: string): Promise<INewsType | undefined> {
+    try {
+        const response = await axiosInstance.get(`/search/v2/articlesearch.json?fq=uri:"${uri}"`, {
+            params: {
+                'api-key': API_KEY,
+                sort: 'newest',
+            }
+        })
+        return (response.data?.response?.docs as ITopNewsType).map(({ byline: { original }, headline: { main }, uri, pub_date, abstract, section_name, multimedia, web_url, snippet, lead_paragraph }) => ({
+            webUrl: web_url,
+            snippet,
+            leadParagraph: lead_paragraph,
+            byline: original,
+            title: main,
+            uri,
+            published_date: pub_date,
+            abstract,
+            section: section_name,
+            multimedia
+        })) || [];
+    } catch (error) {
+        console.log(error);
     }
 }

@@ -15,7 +15,7 @@ const DropDawnMenu = ({ menuName, items }: Props) => {
     const [dropDownMenu, setDropDownMenu] = useState(false)
 
     useEffect(() => {
-        let hideElement: number;
+        let hideElement: ReturnType<typeof setTimeout>;
         if (!dropDownMenu) {
             hideElement = setTimeout(() => {
                 if (dropDownMenuRef.current) {

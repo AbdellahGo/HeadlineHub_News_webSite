@@ -27,11 +27,12 @@ export type IContextType = {
     checkAuthUser: () => Promise<boolean>;
     allSavedStoriesUris: string[],
     handleSaveOrUndoSaveStories: (storyData: IStory) => Promise<void>,
+    searchQuery: string
+    setSearchQuery: Dispatch<SetStateAction<string>>
 }
 
-
-
 export type ITopNewsType = {
+    byline: { original: string }
     abstract: string,
     multimedia: {
         url: string
@@ -40,6 +41,9 @@ export type ITopNewsType = {
     pub_date: string
     section_name: string
     uri: string
+    web_url?: string
+    snippet?: string
+    lead_paragraph?: string
 }[]
 
 
@@ -51,6 +55,9 @@ export type INewsType = {
     uri: string
     published_date: string
     multimedia: { url: string }[]
+    snippet?: string
+    leadParagraph?: string
+    webUrl?: string
 }[]
 
 

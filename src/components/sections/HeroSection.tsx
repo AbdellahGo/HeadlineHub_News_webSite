@@ -2,16 +2,17 @@ import { Link } from "react-router"
 import { BookmarkButton, SideStoryBox } from "../shared";
 import { IoTrendingUp } from "react-icons/io5";
 import { container, hoverAnimatedUnderline } from "../../clasess";
-import { useGetHomeNews } from "../../lib/react-query/queries";
 import { formatDate } from "../../lib/utils";
 import { NoImage } from "../../assets";
+import { INewsType } from "../../types";
 
+type props = {
+    homeNews: INewsType | undefined
+}
 
-const HeroSection = () => {
-    const { data: homeNews = [], isPending } = useGetHomeNews()
+const HeroSection = ({ homeNews }: props) => {
 
-    if (isPending) return 'loading...'
-
+    
     return (
         <section className="w-full">
             <div className={container}>
@@ -81,7 +82,7 @@ const HeroSection = () => {
                                                     title: title,
                                                     description: abstract,
                                                     updated: published_date,
-                                                    image: multimedia![0] ? `${multimedia[0]?.url}` : NoImage,
+                                                    image: multimedia && multimedia![0] ? `${multimedia[0]?.url}` : NoImage,
                                                     uri: uri,
                                                 }} />
                                             </div>

@@ -79,7 +79,7 @@ const Footer = () => {
           </div>
           <div className="lg:w-8/12 w-full flex flex-col gap-20 py-20">
             <h2 className="flex items-center gap-[4px] text-hyperlink-line-color dark:text-white font-notoSans font-semibold text-[15px] leading-[15px]">
-              About Company
+            Essential Links
               <MdOutlineKeyboardArrowRight size={17} />
             </h2>
             <ul className="flex flex-wrap items-center gap-15">

@@ -17,7 +17,7 @@ const SideStoryBox = ({ abstract, img, title, updated, category, uri, parentStyl
     return (
         <div className={`flex items-center gap-20 ${parentStyles}`}>
             <div className="flex-1 flex gap-[2px] flex-col">
-                <Link to={`category/${category}`} className='capitalize leading-[18px] font-dmSans text-12 font-medium text-qlink-color dark:text-white hover:opacity-[.7] transition'>
+                <Link to={`/category/${category}`} className='capitalize leading-[18px] font-dmSans text-12 font-medium text-qlink-color dark:text-white hover:opacity-[.7] transition'>
                     {category}
                 </Link>
                 <h2 className="text-12 leading-[20px] font-notoSans font-bold text-qlink-color dark:text-white">
