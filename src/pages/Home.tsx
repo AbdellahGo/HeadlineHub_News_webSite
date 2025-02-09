@@ -17,16 +17,16 @@ const Home = () => {
 
 
   useEffect(() => {
-    const allNewsLoading = isLoadingHomeNews && isLoadingWorldNews && isLoadingBusinessNews && isLoadingTechnologyNews && isLoadingArtNews && isLoadingPoliticsNews;
+    const allNewsLoading = isLoadingHomeNews || isLoadingWorldNews || isLoadingBusinessNews || isLoadingTechnologyNews || isLoadingArtNews || isLoadingPoliticsNews;
     const allNewsEmpty = homeNews.length === 0 && worldNews.length === 0 && businessNews.length === 0 && technologyNews.length === 0 && artsNews.length === 0 && politicsNews.length === 0;
 
-    if (allNewsLoading && allNewsEmpty) {
+    if (!allNewsLoading && allNewsEmpty) {
       toast.warn(
         'The displayed data is not real-time data. It was previously stored because the actual content could not be loaded from the server due to compression issues.',
         { autoClose: 5000 }
       );
     }
-  }, [isLoadingHomeNews, isLoadingWorldNews, isLoadingBusinessNews, isLoadingTechnologyNews, isLoadingArtNews, isLoadingPoliticsNews, homeNews, worldNews, businessNews, technologyNews, artsNews, politicsNews, ]);
+  }, [isLoadingHomeNews, isLoadingWorldNews, isLoadingBusinessNews, isLoadingTechnologyNews, isLoadingArtNews, isLoadingPoliticsNews, homeNews, worldNews, businessNews, technologyNews, artsNews, politicsNews]);
 
   useEffect(() => {
     window.scrollTo({top: 0, behavior: 'smooth'})
