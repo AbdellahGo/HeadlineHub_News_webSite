@@ -14,7 +14,7 @@ const StoryDetails = () => {
   const { uri } = useParams()
   const { data = [], isPending } = useGetStoryDetailsByUri(uri!)
   const { data: topNews = [], isPending: isLoadingTopNews } = useGetHomeNews()
-  const storyDetails =  data.length > 0 ? data : storyDetailsBackupData
+  const storyDetails = data.length > 0 ? data : storyDetailsBackupData
   const { data: relatedNewsData = [], isPending: isLoadingRelatedNews } = useGetNewsByCategoryName(storyDetails[0]?.section.split('.').join('') || 'home')
   const topNewsBackupData = topNews?.length > 0 ? topNews : worldCategoryBackupData
   const relatedNewsBackupData = relatedNewsData?.length > 0 ? relatedNewsData : worldCategoryBackupData.slice(4, 8)
@@ -24,7 +24,7 @@ const StoryDetails = () => {
   useEffect(() => {
     if (!isPending && (!data || data.length === 0)) {
       toast.warn(
-        'The content displayed may not be the exact article you selected. Due to high server traffic, the original data could not be loaded, so temporary content is being shown instead.', 
+        'The content displayed may not be the exact article you selected. Due to high server traffic, the original data could not be loaded, so temporary content is being shown instead.',
         { autoClose: 5000 }
       );
     }
@@ -35,22 +35,22 @@ const StoryDetails = () => {
   }, [])
 
   if (isPending || isLoadingTopNews || isLoadingRelatedNews) return (
-    <PageLoader/>
+    <PageLoader />
   )
 
 
   return (
     <div className="mt-30">
       <div className={container}>
-        <article className="flex gap-[40px]">
-          <div className="w-[70%]">
+        <article className="flex flex-col lg:flex-row gap-[40px]">
+          <div className="lg:w-[70%] w-full">
             <StoryDetailHeader storyData={storyDetails} />
             <StoryDetailBody storyData={storyDetails} />
             <CommentForm />
           </div>
-          <div className="w-[30%]">
-            <BoxSubscribe />
-            <SideBoxFollowMedia />
+          <div className="lg:w-[30%] w-full">
+              <BoxSubscribe />
+              <SideBoxFollowMedia />
             <div className="mt-20">
               <CategorySectionHeader containerStyles='!border-none' sectionInfo={{ name: 'Top News', link: `/category/home` }} />
               <div className="mt-10 flex flex-col gap-20">
