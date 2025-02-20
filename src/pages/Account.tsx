@@ -37,7 +37,7 @@ const Account = () => {
       }, [])
 
     return (
-        <div className="w-full pt-20">
+        <div className="w-full pt-20 ">
             <div className={container}>
                 <div className="pt-40 pb-20 w-full text-center">
                     <h3 className="font-notoSans text-meta-fcolor uppercase xl:text-20 text-18 font-semibold">Manage Your Account</h3>
