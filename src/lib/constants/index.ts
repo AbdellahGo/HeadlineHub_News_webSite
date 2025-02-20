@@ -78,7 +78,7 @@ export const navBarMenuLinks = [
     title: 'Personalized',
     links: [
       {
-        text: 'Read History',
+        text: 'Saved News',
         link: '/my-news'
       }
     ]

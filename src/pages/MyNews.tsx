@@ -23,7 +23,9 @@ const MyNews = () => {
         <div className="max-w-[700px] mx-auto">
           <MyNewsBanner />
           <div className="w-full mt-20 flex flex-col gap-20">
-            {!isAuthenticated ? (
+            {isPending && isAuthenticated ? (
+              <PageLoader />
+            ) : !isAuthenticated ? (
               <p className={pStyles}>
                 You need to be logged in to view your saved news. Sign in or create an account to access and manage your saved articles.
               </p>
@@ -32,7 +34,7 @@ const MyNews = () => {
                 You haven't saved any news articles yet. Browse the latest news and save articles to access them later.
               </p>
             ) : (
-              isPending ? <PageLoader /> :
+              isPending ? <PageLoader /> : (
                 savedStories?.documents?.slice(0, lastNewsIndex)?.map(({ uri, category, title, image, description, updated }, i) => (
                   <div key={uri} className={`flex Mmd:flex-col-reverse items-center gap-20 ${i !== 0 ? 'pt-20 border-t-1 border-flex-gray-15' : ''}`}>
                     <div className="flex-1 flex gap-[2px] flex-col">
@@ -67,7 +69,7 @@ const MyNews = () => {
                       </Link>
                     </div>
                   </div>
-                ))
+                )))
             )}
           </div>
           {!isAuthenticated || (savedStories?.documents?.length ?? 0) > 0 && (
